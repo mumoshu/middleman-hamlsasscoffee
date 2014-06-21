@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>クラウドワークスエンジニアブログ</title>
+  <subtitle>Blog subtitle</subtitle>
+  <id>http://crowdworks.github.io/</id>
+  <link href="http://crowdworks.github.io/"/>
+  <link href="http://crowdworks.github.io/feeds.xml" rel="self"/>
+  <updated>2014-06-21T00:00:00+09:00</updated>
+  <author>
+    <name>CrowdWorks, Inc.</name>
+  </author>
+  <entry>
+    <title>サンプル記事1タイトル</title>
+    <link rel="alternate" href="http://crowdworks.github.io/2014/06/21/sample.html"/>
+    <id>http://crowdworks.github.io/2014/06/21/sample.html</id>
+    <published>2014-06-21T00:00:00+09:00</published>
+    <updated>2014-06-21T17:17:17+09:00</updated>
+    <author>
+      <name>Yusuke KUOKA</name>
+    </author>
+    <content type="html">&lt;p&gt;要約サンプル&lt;/p&gt;
+
+&lt;section&gt;
+&lt;h2&gt;サンプル記事1見出し1&lt;/h2&gt;
+&lt;p&gt;サンプル記事1本文1&lt;/p&gt;
+&lt;p&gt;
+&lt;div id='example'&gt;
+&lt;div class="highlight ruby"&gt;&lt;table style="border-spacing: 0"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class="gutter gl" style="text-align: right"&gt;&lt;pre class="lineno"&gt;1&amp;#x000A;2&amp;#x000A;3&amp;#x000A;4&lt;/pre&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre&gt;&lt;span class="n"&gt;hoge&lt;/span&gt;&amp;#x000A;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;foo&lt;/span&gt;&amp;#x000A;  &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="s2"&gt;"bar"&lt;/span&gt;&amp;#x000A;&lt;span class="k"&gt;end&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;/section&gt;
+</content>
+  </entry>
+</feed>

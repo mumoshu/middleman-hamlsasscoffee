@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>http://crowdworks.github.io//2014/06/21/sample.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//tags/sample.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//tags/foo.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//2014.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//2014/06.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//2014/06/21.html</loc>
+  </url>
+</urlset>
