@@ -8,7 +8,7 @@
 <html class='no-js' lang='en'>
 <!-- <![endif] -->
 <head>
-<title>サンプル記事1タイトル</title>
+<title>秘伝のインフラをChef化する</title>
 <meta charset='utf-8' content='text/html' http-equiv='content-type'>
 <meta content='ie=edge,chrome=1' http-equiv='x-ua-compatible'>
 <meta content='' name='description'>
@@ -58,8 +58,8 @@ CrowdWorks エンジニアブログ
 <section class='article-intro container'>
 <div class='row'>
 <div class='col-md-8 col-md-offset-2 blog-article'>
-<p class='article-date'>2014/06/21</p>
-<h1 class='article-title'>サンプル記事1タイトル</h1>
+<p class='article-date'>2014/07/17</p>
+<h1 class='article-title'>秘伝のインフラをChef化する</h1>
 </div>
 </div>
 </section>
@@ -67,21 +67,109 @@ CrowdWorks エンジニアブログ
 <div class='row'>
 <div class='col-lg-8 col-lg-offset-2'>
 <div class='author'>
-<img class='author-gravatar gravatar' src='http://s.gravatar.com/avatar/8e045bf747ca7a90b1d955dc30217271?s=32'>
 </div>
-<p>要約サンプル　要約サンプル　要約サンプル</p>
-シェルスクリプトで「コマンドがエラー終了したときにリトライ」したい場合に使うスクリプト。
+<p>こんにちは、クラウドワークスの九岡です。</p>
 
-<script src="https://gist.github.com/mumoshu/b5361d508fe1694fba6c.js"></script>
-<section>
-<h2 class='article__title'>サンプル記事1見出し1</h2>
-<p class='article__body'>サンプル記事1本文1</p>
-<p class='article__body'>
-<div id='example'>
-<pre><code class="highlight ruby"><span class="n">hoge</span>&#x000A;<span class="k">def</span> <span class="nf">foo</span>&#x000A;  <span class="nb">puts</span> <span class="s2">"bar"</span>&#x000A;<span class="k">end</span>&#x000A;</code></pre>
-</div>
-</p>
-</section>
+<p>弊社のインフラを徐々にChefに移行しています。
+つい先日、一部の本番サーバを実際にChefで構築したものに置き換えるところまで無事やり遂げたので、
+このあたりで振り返りをしておきたいと思います。
+これからChefを導入したい、という方はぜひ参考にしてください！</p>
+
+<p>弊社はインフラとして全面的にAWSを利用しています。</p>
+
+<p>社名と同じクラウドソーシングサービスである<a href="http://crowdworks.jp">クラウドワークス</a>は、</p>
+
+<ul>
+<li>Railsアプリ on Amazon EC2</li>
+<li>MySQL on Amazon RDS</li>
+<li>小サービス毎にAmazon VPCでネットワークを分離</li>
+<li>DNSはAmazon Route 53</li>
+<li>ロードバランサはELB</li>
+</ul>
+
+<p>という構成になっています。
+クラウドワークスのエンジニアが行うのは、</p>
+
+<ul>
+<li>Railsアプリの開発</li>
+<li>EC2インスタンスの設定(インスタンスレベル・OSレベル)</li>
+<li>MySQLの設定</li>
+<li>VPCの設定</li>
+<li>Route 53の設定</li>
+<li>&hellip;</li>
+</ul>
+
+<p>という感じで、主に「開発や設定」という業務です。
+サーバの物理的な構築や運用からは（当然ですが）解放されていて、その上で「開発や設定」が私たちのコア領域です。
+そこをいかに効率化できるか、というのが私たちが注力するポイントです。</p>
+
+<p>さて、サーバの物理的な運用からは解放されている私たちですが、これまでは起動したEC2インスタンスの「OSレベル」での設定は人力で行っていました。
+例えば、以下のようなことは手作業で行っていました。</p>
+
+<ul>
+<li>ユーザの管理</li>
+<li>パッケージのインストール・設定</li>
+<li>アプリケーションのデプロイ準備(パーミッションの変更その他)</li>
+</ul>
+
+<p>属人化を極力避けるために、これらの作業履歴はコンフルエンスにまとめ、作業を行う都度ChatWork上で周知する、というようなことは継続的に行っていました。
+しかし、サービスの運営が続く（ありがたいことです）につれて、作業履歴の追記もれ・経緯や作業目的の忘却・それによるサーバの「秘伝のタレ化」が進んでいて、
+実際筆者が入社してそれまでなかった「ステージング環境」をつくろうとしたところ、以下の問題に直面しました。</p>
+
+<ul>
+<li>「作業履歴」はあるが、それに抜け漏れがあるのかないのか簡単に確かめるすべがない</li>
+<li>何のために何が必要なのか、そもそもの設定の目的と要件が不明</li>
+</ul>
+
+<p>結局、弊社のRailsアプリの動作環境をすべて調べ直して、必要なパッケージをインストールし、アプリケーションが暗黙的に依存しているミドルウェアの設定(DBやメールサーバ、ユーザやディレクトリの権限、ログの出力先、etc)をすべて洗い直す必要がありました。
+それをドキュメント化して手作業でステージング環境をつくるという手もあったのですが、
+ドキュメントは完全ではない・自動的に再現できないという問題があり、いま自分が行った事を結局後の担当者にまたやってもらわなければならなくなるという問題がありました。
+そこでChef化しました。
+Puppetなど他のソリューションを使っても良かったのですが、弊社はRubyの経験が豊富で、サービス開発でも主にRubyを使っているエンジニアが多かったため、
+RubyでかけるChefを使うことに意味がありました。</p>
+
+<p>(執筆中&hellip;)</p>
+
+<h1>前提</h1>
+
+<ul>
+<li>Chefの経験が(あまり)ない</li>
+<li>Chef専門エンジニアがいない</li>
+</ul>
+
+<h1>流れ</h1>
+
+<ul>
+<li>開発環境のChef化</li>
+<li>ステージング環境のChef化</li>
+<li>本番環境のChef化</li>
+</ul>
+
+<p>開発環境は必ずしも本番環境と同じOSやソフトウェアを使う必要はありません。
+例えば、弊社の場合開発環境のOSは</p>
+
+<ul>
+<li>各個人のMac OS X</li>
+<li>Vagrantで作成した仮想マシン上のUbuntu/CentOS</li>
+<li>共用サーバ上のAmazon Linux</li>
+</ul>
+
+<p>など多岐にわたります。
+本番環境ではpostfixをメールサーバとして使っていますが、開発環境ではそういう縛りはありません。
+(とにかくRailsアプリの動作確認に必要なメールが送信できればなんでもいい）。
+そういうわけで、Chefレシピに対する要求も開発環境の方が少ないので、まず開発環境向けのChefレシピを作成して、
+それを徐々に本番環境に対応できるように改良していく、というステップを踏む事をおすすめします。</p>
+
+<p><pre class="dot" style="display: none;">  digraph {
+      A [label=&quot;<div style='padding: 10px;'>A <span style='font-size:32px'>Big</span> <span style='color:red;'>HTML</span> Source!</div>&quot;];
+      C;
+      E [label=&quot;A sink ほげ&quot;];
+      A -&gt; B -&gt; C;
+      B -&gt; D -&gt; E;
+      C -&gt; E;
+      A -&gt; D [label=&quot;<div>A multi-rank <span style='color:blue;'>HTML</span> edge!</div>&quot;];
+  }
+</pre><svg width="800" height="600"><g transform="translate(20, 20)" /></svg></p>
 
 <ul class='article__body__share-buttons'>
 <li class='article__body__share-buttons__share-button'>
@@ -118,15 +206,6 @@ CrowdWorks エンジニアブログ
 <section class='content-section container'>
 <div class='row'>
 <div class='col-lg-8 col-lg-offset-2'>
-<h2 class='section-title'>
-<i class='fa fa-angle-double-down animated'></i>
-関連する記事
-</h2>
-<ul class='archive'>
-<li class='archive__article'>
-<a href='/2014/06/22/sample.html'>サンプル記事2タイトル</a>
-</li>
-</ul>
 <h2 class='section-title'>
 <i class='fa fa-angle-double-down animated'></i>
 最近の記事
@@ -187,6 +266,40 @@ CrowdWorks エンジニアブログ
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.10/d3.min.js" type="text/javascript"></script>
 <script src="//cpettitt.github.io/project/dagre-d3/latest/dagre-d3.min.js" type="text/javascript"></script>
 <script src="//cpettitt.github.io/project/graphlib-dot/latest/graphlib-dot.min.js" type="text/javascript"></script>
+          <script>
+            var dotElement = document.querySelector(".dot");
+
+            function tryDraw() {
+              var graphlibGraph;
+              var dotCode = dotElement.textContent;
+              try {
+                graphlibGraph = graphlibDot.parse(dotCode);
+              } catch (e) {
+                throw e;
+              }
+
+              if (graphlibGraph) {
+                var svg = d3.select("svg");
+                var renderer = new dagreD3.Renderer();
+
+                // Uncomment the following line to get straight edges
+                //renderer.edgeInterpolate('linear');
+
+                // Custom transition function
+                function transition(selection) {
+                  return selection.transition().duration(500);
+                }
+
+                renderer.transition(transition);
+
+                var layout = renderer.run(graphlibGraph, svg.select("g"));
+                transition(d3.select("svg"))
+                  .attr("width", layout.graph().width + 40)
+                  .attr("height", layout.graph().height + 40)
+              }
+            }
+            tryDraw();
+          </script>
 
 <script>
   var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];

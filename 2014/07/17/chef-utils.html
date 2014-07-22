@@ -8,7 +8,7 @@
 <html class='no-js' lang='en'>
 <!-- <![endif] -->
 <head>
-<title>サンプル記事1タイトル</title>
+<title>知らなくて損したChef関連ツール</title>
 <meta charset='utf-8' content='text/html' http-equiv='content-type'>
 <meta content='ie=edge,chrome=1' http-equiv='x-ua-compatible'>
 <meta content='' name='description'>
@@ -58,8 +58,8 @@ CrowdWorks エンジニアブログ
 <section class='article-intro container'>
 <div class='row'>
 <div class='col-md-8 col-md-offset-2 blog-article'>
-<p class='article-date'>2014/06/21</p>
-<h1 class='article-title'>サンプル記事1タイトル</h1>
+<p class='article-date'>2014/07/17</p>
+<h1 class='article-title'>知らなくて損したChef関連ツール</h1>
 </div>
 </div>
 </section>
@@ -69,19 +69,29 @@ CrowdWorks エンジニアブログ
 <div class='author'>
 <img class='author-gravatar gravatar' src='http://s.gravatar.com/avatar/8e045bf747ca7a90b1d955dc30217271?s=32'>
 </div>
-<p>要約サンプル　要約サンプル　要約サンプル</p>
-シェルスクリプトで「コマンドがエラー終了したときにリトライ」したい場合に使うスクリプト。
+<p>こんにちは、クラウドワークスの九岡です。</p>
 
-<script src="https://gist.github.com/mumoshu/b5361d508fe1694fba6c.js"></script>
-<section>
-<h2 class='article__title'>サンプル記事1見出し1</h2>
-<p class='article__body'>サンプル記事1本文1</p>
-<p class='article__body'>
-<div id='example'>
-<pre><code class="highlight ruby"><span class="n">hoge</span>&#x000A;<span class="k">def</span> <span class="nf">foo</span>&#x000A;  <span class="nb">puts</span> <span class="s2">"bar"</span>&#x000A;<span class="k">end</span>&#x000A;</code></pre>
-</div>
-</p>
-</section>
+<p>「知らないと損するChef関連ツール」みたいな期待感を持たせるタイトルも検討しましたが、
+あえて等身大ということでこのタイトルにしました！</p>
+
+<p>４月に入社してChef化を本格的に初めて、当時知らなくて苦労したことがいくつかありました。
+同じ苦労をする人を少しでも減らすため、「過去の自分に教えるとしたらこれ！」と思えるものを厳選して共有させていただきます。
+これからChefを始める・導入する、という方はぜひご活用ください！</p>
+
+<p></p>
+
+<h1>chef-shell</h1>
+
+<p>最近のChefには最初から同梱されている文字通り「Chefコードを実行できるシェル」です。
+chef-shellを起動すると、chef-shellのプロンプトに任意のRubyコード・ChefのDSLを与えて実行することができます。
+「そもそもChef的にこの書き方であってるのかどうかわからない」というレベルのChefレシピのデバッグをするとき、
+みなさんどうしてますか？
+「レシピを修正してknife solo cookで実行」とかしてませんか？
+knife solo cookの実行には、レシピの同期・デバッグ対象と関係ないレシピの再実行などいくつか重いフェーズが含まれるので、
+こういうデバッグは時間がかかります。効率が悪いです。
+そこで、chef-shellを使って、対象サーバ上でChefのコードスニペットを実行してみて、動作確認がとれてからChefレシピに反映しましょう。
+調理用がわからないうちは、まず色々試してみてから、おいしくできあがったものだけをレシピ化したいですよね？
+Chefでも同じ事です！</p>
 
 <ul class='article__body__share-buttons'>
 <li class='article__body__share-buttons__share-button'>
@@ -118,15 +128,6 @@ CrowdWorks エンジニアブログ
 <section class='content-section container'>
 <div class='row'>
 <div class='col-lg-8 col-lg-offset-2'>
-<h2 class='section-title'>
-<i class='fa fa-angle-double-down animated'></i>
-関連する記事
-</h2>
-<ul class='archive'>
-<li class='archive__article'>
-<a href='/2014/06/22/sample.html'>サンプル記事2タイトル</a>
-</li>
-</ul>
 <h2 class='section-title'>
 <i class='fa fa-angle-double-down animated'></i>
 最近の記事

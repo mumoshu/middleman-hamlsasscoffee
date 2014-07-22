@@ -8,7 +8,7 @@
 <html class='no-js' lang='en'>
 <!-- <![endif] -->
 <head>
-<title>サンプル記事1タイトル</title>
+<title>MiddlemanとGitHubで静的サイトを効率的に開発する方法</title>
 <meta charset='utf-8' content='text/html' http-equiv='content-type'>
 <meta content='ie=edge,chrome=1' http-equiv='x-ua-compatible'>
 <meta content='' name='description'>
@@ -58,8 +58,8 @@ CrowdWorks エンジニアブログ
 <section class='article-intro container'>
 <div class='row'>
 <div class='col-md-8 col-md-offset-2 blog-article'>
-<p class='article-date'>2014/06/21</p>
-<h1 class='article-title'>サンプル記事1タイトル</h1>
+<p class='article-date'>2014/07/18</p>
+<h1 class='article-title'>MiddlemanとGitHubで静的サイトを効率的に開発する方法</h1>
 </div>
 </div>
 </section>
@@ -69,19 +69,127 @@ CrowdWorks エンジニアブログ
 <div class='author'>
 <img class='author-gravatar gravatar' src='http://s.gravatar.com/avatar/8e045bf747ca7a90b1d955dc30217271?s=32'>
 </div>
-<p>要約サンプル　要約サンプル　要約サンプル</p>
-シェルスクリプトで「コマンドがエラー終了したときにリトライ」したい場合に使うスクリプト。
+<h2>レビュー：レビュー結果の反映が面倒</h2>
 
-<script src="https://gist.github.com/mumoshu/b5361d508fe1694fba6c.js"></script>
-<section>
-<h2 class='article__title'>サンプル記事1見出し1</h2>
-<p class='article__body'>サンプル記事1本文1</p>
-<p class='article__body'>
-<div id='example'>
-<pre><code class="highlight ruby"><span class="n">hoge</span>&#x000A;<span class="k">def</span> <span class="nf">foo</span>&#x000A;  <span class="nb">puts</span> <span class="s2">"bar"</span>&#x000A;<span class="k">end</span>&#x000A;</code></pre>
-</div>
-</p>
-</section>
+<h2>好きなエディタで書ける</h2>
+
+<p>ブログサービスなどを使うと、そのままでは外部エディタなどを使って記事を書くことはできません。
+ブラウザ拡張などで外部エディタで記事を書けるようにしたり、もしくはエディタで書いた記事ソースをブログサービスへコピペ・・・ということもあります。
+Middlemanを使う場合、各自が使い慣れたエディタで、普段仕事でコードや文章を書くときと同様に記事を書くことができます。
+脳のコンテキストスイッチが減り、ブログサービスに慣れる時間も不要で、業務の合間にできるだけ早く記事を書いて公開した人に向いています。</p>
+
+<h2>様々なフォーマットが使える</h2>
+
+<p>Middlemanはプラグインによって様々な
+この記事はMarkdownとERBで書いています。記事の基本的なところは
+このブログはGitHubとMiddleman、その他にHaml・SCSS・Markdownなどを使って執筆・運営されています。</p>
+
+<h2>GitHubでバージョン管理できる</h2>
+
+<p>ブログエンジン・ブログサービス</p>
+
+<h2>前提</h2>
+
+<p>当然といえば当然ですが、弊社には「ブログ専門」のエンジニアはいません。
+通常の業務の合間に記事を書く・公開するといったことを行う必要があるので、ブログの運用にまつわるよくある手間はできるだけ避けたいところです。
+ブログの運用にまつわるよくある手間、とは具体的に言うと、</p>
+
+<ul>
+<li>費用承認</li>
+<li>サーバの運用</li>
+</ul>
+
+<h2>Middleman採用の決め手</h2>
+
+<h3>Rubyで書かれている</h3>
+
+<h3>デプロイが柔軟</h3>
+
+<p>Middlemanのプラグインであるmiddleman-deployやmiddleman-syncを使うと、
+生成したサイトをAmazon S3やGitHub Pagesなど様々な場所にデプロイすることができます。
+サーバが必ずしも必要ないので、サーバの運用に手間をかけたくない私達にとってはうってつけでした。</p>
+
+<p>業務の合間にさっと記事を書くためには、できるだけ苦労せずにブログを運用したいところです。</p>
+
+<h3>Rubyで書かれている</h3>
+
+<p>弊社は、アプリ・インフラ含めほとんどの開発にRubyを使っています。</p>
+
+<h2>利用したもの</h2>
+
+<ul>
+<li>Middleman</li>
+<li>GitHub</li>
+<li>Wercker</li>
+<li>Amazon S3</li>
+</ul>
+
+<p><img class="article__body__image_left_30" src="/images/middleman.svg" /></p>
+
+<h2>Middleman</h2>
+
+<p>静的サイトジェネレータ。middleman-blogというプラグインを使うことで、ブログを運用することもできます。
+これが大変便利で、記事の執筆をHamlやらMarkdownやら、Middlemanが対応しているあらゆるフォーマットで行うことができつつ、
+公開に伴う承認フローをGitHubのプルリクエストで回すことができます。記事の取り下げも最近GitHubに追加されたプルリクエストのRevert機能で一発です。</p>
+
+<p><div style="clear: both;"/></p>
+
+<p><img class="article__body__image_left_30" src="/images/github.png" /></p>
+
+<h2>GitHub</h2>
+
+<p><div style="clear: both;"/></p>
+
+<h2>ワークフロー</h2>
+
+<ul>
+<li>git cloneする</li>
+<li><code>bundle exec middleman</code>でテストサーバを起動する</li>
+<li>ブラウザで<a href="http://localhost:4567/">http://localhost:4567/</a>にアクセスする</li>
+<li><code>bundle exec middleman article 英語タイトル</code>で新規記事を作成する
+
+<ul>
+<li>九岡はAtomの<a href="https://github.com/kylewlacy/run-command">Run Commandパッケージ</a>を使って、Atom内で完結させています</li>
+</ul></li>
+<li>ブラウザ上で記事ページを開く(新規記事はMiddlemanが自動的にロードしてくれています！)</li>
+<li>記事を変更するとブラウザ上でも変更点が自動的にリロードされる</li>
+<li>書き終わったらgit push・hub pull-request</li>
+<li>マージされたらWerckerで自動的に公開</li>
+</ul>
+
+<p><pre class="dot" style="display: none;">  digraph {
+      A [label=&quot;GitHubからソースをclone&quot;];
+      B [label=&quot;middleman article &lt;タイトル&gt;&quot;]
+      C [label=&quot;記事ソース編集&quot;]
+      D [label=&quot;ブラウザで表示確認&quot;];
+      E [label=&quot;GitHubへpush&quot;];
+      F [label=&quot;レビュー&quot;]
+      G [label=&quot;マージ&quot;]
+      H [label=&quot;公開&quot;]
+      A -&gt; B -&gt; C;
+      D -&gt; C;
+      C -&gt; D [label=&quot;middleman serverで自動リロード&quot;];
+      D -&gt; E;
+      E -&gt; F [label=&quot;Werckerで自動デプロイ&quot;]
+      F -&gt; C;
+      F -&gt; G;
+      G -&gt; H [label=&quot;WerckerでGitHub Pagesへ自動デプロイ&quot;];
+  }
+</pre><svg width="800" height="600"><g transform="translate(20, 20)" /></svg></p>
+
+<h2>ビルド</h2>
+<pre><code class="highlight shell"><span class="gp">$ </span><span class="nv">MIDDLEMAN_SYNC_BUCKET_NAME</span><span class="o">=</span>&lt;Bucket&gt; <span class="se">\</span>
+  <span class="nv">MIDDLEMAN_SYNC_ACCESS_KEY_ID</span><span class="o">=</span><span class="nv">$AWS_ACCESS_KEY_ID</span> <span class="se">\</span>
+  <span class="nv">MIDDLEMAN_SYNC_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="nv">$AWS_SECRET_ACCESS_KEY</span> <span class="se">\</span>
+  bundle <span class="nb">exec </span>middleman build
+</code></pre>
+
+<h2>Amazon S3へのデプロイ</h2>
+<pre><code class="highlight shell"><span class="gp">$ </span><span class="nv">MIDDLEMAN_SYNC_BUCKET_NAME</span><span class="o">=</span>&lt;Bucket名&gt; <span class="se">\</span>
+  <span class="nv">MIDDLEMAN_SYNC_ACCESS_KEY_ID</span><span class="o">=</span><span class="nv">$AWS_ACCESS_KEY_ID</span> <span class="se">\</span>
+  <span class="nv">MIDDLEMAN_SYNC_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="nv">$AWS_SECRET_ACCESS_KEY</span> <span class="se">\</span>
+  bundle <span class="nb">exec </span>middleman sync
+</code></pre>
 
 <ul class='article__body__share-buttons'>
 <li class='article__body__share-buttons__share-button'>
@@ -98,6 +206,9 @@ CrowdWorks エンジニアブログ
 <img alt='このエントリーをはてなブックマークに追加' height='20' src='http://b.st-hatena.com/images/entry-button/button-only@2x.png' style='border: none;' width='20'>
 </a>
 <script async='async' charset='utf-8' src='http://b.st-hatena.com/js/bookmark_button.js' type='text/javascript'></script>
+</li>
+<li class='article__body__share-buttons__share-button'>
+<iframe allowtransparency='true' frameborder='0' height='20' scrolling='0' src='http://ghbtns.com/github-btn.html?user=mumoshu&amp;type=follow&amp;count=true' width='165'></iframe>
 </li>
 <li class='article__body__share-buttons__share-button'>
 <div class='g-plusone' data-size='medium'></div>
@@ -124,7 +235,7 @@ CrowdWorks エンジニアブログ
 </h2>
 <ul class='archive'>
 <li class='archive__article'>
-<a href='/2014/06/22/sample.html'>サンプル記事2タイトル</a>
+<a href='/2014/07/17/github-based-blog.html'>エンジニアブログをMiddlemanでつくることにした5つの理由</a>
 </li>
 </ul>
 <h2 class='section-title'>
@@ -187,6 +298,40 @@ CrowdWorks エンジニアブログ
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.10/d3.min.js" type="text/javascript"></script>
 <script src="//cpettitt.github.io/project/dagre-d3/latest/dagre-d3.min.js" type="text/javascript"></script>
 <script src="//cpettitt.github.io/project/graphlib-dot/latest/graphlib-dot.min.js" type="text/javascript"></script>
+          <script>
+            var dotElement = document.querySelector(".dot");
+
+            function tryDraw() {
+              var graphlibGraph;
+              var dotCode = dotElement.textContent;
+              try {
+                graphlibGraph = graphlibDot.parse(dotCode);
+              } catch (e) {
+                throw e;
+              }
+
+              if (graphlibGraph) {
+                var svg = d3.select("svg");
+                var renderer = new dagreD3.Renderer();
+
+                // Uncomment the following line to get straight edges
+                //renderer.edgeInterpolate('linear');
+
+                // Custom transition function
+                function transition(selection) {
+                  return selection.transition().duration(500);
+                }
+
+                renderer.transition(transition);
+
+                var layout = renderer.run(graphlibGraph, svg.select("g"));
+                transition(d3.select("svg"))
+                  .attr("width", layout.graph().width + 40)
+                  .attr("height", layout.graph().height + 40)
+              }
+            }
+            tryDraw();
+          </script>
 
 <script>
   var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];

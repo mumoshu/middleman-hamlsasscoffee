@@ -8,7 +8,7 @@
 <html class='no-js' lang='en'>
 <!-- <![endif] -->
 <head>
-<title>サンプル記事1タイトル</title>
+<title>WerckerとTest Kitchen・VagrantでCIを回す</title>
 <meta charset='utf-8' content='text/html' http-equiv='content-type'>
 <meta content='ie=edge,chrome=1' http-equiv='x-ua-compatible'>
 <meta content='' name='description'>
@@ -58,8 +58,8 @@ CrowdWorks エンジニアブログ
 <section class='article-intro container'>
 <div class='row'>
 <div class='col-md-8 col-md-offset-2 blog-article'>
-<p class='article-date'>2014/06/21</p>
-<h1 class='article-title'>サンプル記事1タイトル</h1>
+<p class='article-date'>2014/07/17</p>
+<h1 class='article-title'>WerckerとTest Kitchen・VagrantでCIを回す</h1>
 </div>
 </div>
 </section>
@@ -67,21 +67,39 @@ CrowdWorks エンジニアブログ
 <div class='row'>
 <div class='col-lg-8 col-lg-offset-2'>
 <div class='author'>
-<img class='author-gravatar gravatar' src='http://s.gravatar.com/avatar/8e045bf747ca7a90b1d955dc30217271?s=32'>
 </div>
-<p>要約サンプル　要約サンプル　要約サンプル</p>
-シェルスクリプトで「コマンドがエラー終了したときにリトライ」したい場合に使うスクリプト。
+<p>必要</p>
 
-<script src="https://gist.github.com/mumoshu/b5361d508fe1694fba6c.js"></script>
-<section>
-<h2 class='article__title'>サンプル記事1見出し1</h2>
-<p class='article__body'>サンプル記事1本文1</p>
-<p class='article__body'>
-<div id='example'>
-<pre><code class="highlight ruby"><span class="n">hoge</span>&#x000A;<span class="k">def</span> <span class="nf">foo</span>&#x000A;  <span class="nb">puts</span> <span class="s2">"bar"</span>&#x000A;<span class="k">end</span>&#x000A;</code></pre>
-</div>
-</p>
-</section>
+<ul>
+<li>プライベートレポジトリに対応している</li>
+<li>ビルド環境をカスタマイズできる(パッケージのインストールや設定)</li>
+<li>比較的安全に仮想サーバの使い捨てを伴うテストをまわせる</li>
+</ul>
+
+<p>仕組み</p>
+
+<ul>
+<li>Chefクックブックを変更してGitHubへpush</li>
+<li>Werckerのビルドが自動で始まる</li>
+<li>テスト結果がSlackで通知される(ネットワークエラーなど一時的な原因でビルドが落ちた場合は、Wercker上でビルドを再実行できる)</li>
+</ul>
+
+<p>やってること</p>
+
+<ul>
+<li>ビルド結果をSlackへ通知</li>
+<li>ベースboxはOSSとして公開</li>
+<li>Chefクックブック毎にVagrantやTest Kitchen + EC2でテスト</li>
+</ul>
+
+<p>所感</p>
+
+<ul>
+<li>ベータ版のため無料</li>
+<li>いつcloseされるかわからないという怖さは無くはないが、<a href="http://techcrunch.com/2013/01/23/wercker-makes-code-delivery-easy-gets-seed-funding-from-shamrock-ventures-greylock-venture-partners-and-a-list-technologists/">2013年1月に$1 million投資</a>を受けていて、</li>
+<li>ベータ版とはいえ、プライベートレポジトリにも対応しているし、ビルドは並列実行されるし、boxの起動も１〜２分と高速なため、特にストレスを感じない</li>
+<li>git pushからCI実行までのレスポンスの早さは上々</li>
+</ul>
 
 <ul class='article__body__share-buttons'>
 <li class='article__body__share-buttons__share-button'>
@@ -118,15 +136,6 @@ CrowdWorks エンジニアブログ
 <section class='content-section container'>
 <div class='row'>
 <div class='col-lg-8 col-lg-offset-2'>
-<h2 class='section-title'>
-<i class='fa fa-angle-double-down animated'></i>
-関連する記事
-</h2>
-<ul class='archive'>
-<li class='archive__article'>
-<a href='/2014/06/22/sample.html'>サンプル記事2タイトル</a>
-</li>
-</ul>
 <h2 class='section-title'>
 <i class='fa fa-angle-double-down animated'></i>
 最近の記事

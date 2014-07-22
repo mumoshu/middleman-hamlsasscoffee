@@ -4,6 +4,44 @@
     <loc>http://crowdworks.github.io//2014/06/21/sample.html</loc>
   </url>
   <url>
+    <loc>http://crowdworks.github.io//2014/06/22/sample.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//2014/06/23/markdown-sample.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//2014/07/17/chef-utils.html</loc>
+  </url>
+  <lastmod>2014-07-17 11:42 JST</lastmod>
+  <url>
+    <loc>http://crowdworks.github.io//2014/07/17/chef.html</loc>
+  </url>
+  <lastmod>2014-07-17 10:56 JST</lastmod>
+  <url>
+    <loc>http://crowdworks.github.io//2014/07/17/github-based-blog.html</loc>
+  </url>
+  <lastmod>2014-07-17 18:20 JST</lastmod>
+  <url>
+    <loc>http://crowdworks.github.io//2014/07/17/upgrading-ruby-to-2-1-2.html</loc>
+  </url>
+  <lastmod>2014-07-17 12:30 JST</lastmod>
+  <url>
+    <loc>http://crowdworks.github.io//2014/07/17/wercker.html</loc>
+  </url>
+  <lastmod>2014-07-17 10:37 JST</lastmod>
+  <url>
+    <loc>http://crowdworks.github.io//2014/07/18/middleman-github-workflow.html</loc>
+  </url>
+  <lastmod>2014-07-18 22:01 JST</lastmod>
+  <url>
+    <loc>http://crowdworks.github.io//2014/07/18/s3-access-control-with-bucket-policy.html</loc>
+  </url>
+  <lastmod>2014-07-18 23:14 JST</lastmod>
+  <url>
+    <loc>http://crowdworks.github.io//2014/07/19/s3-access-control-with-bucket-policy.html</loc>
+  </url>
+  <lastmod>2014-07-19 00:26 JST</lastmod>
+  <url>
     <loc>http://crowdworks.github.io//</loc>
   </url>
   <url>
@@ -13,10 +51,46 @@
     <loc>http://crowdworks.github.io//tags/foo.html</loc>
   </url>
   <url>
+    <loc>http://crowdworks.github.io//tags/bar.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//tags/markdown.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//tags/middleman.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//tags/github.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//tags/aws.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//tags/s3.html</loc>
+  </url>
+  <url>
     <loc>http://crowdworks.github.io//2014.html</loc>
   </url>
   <url>
+    <loc>http://crowdworks.github.io//2014/07.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//2014/07/19.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//2014/07/18.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//2014/07/17.html</loc>
+  </url>
+  <url>
     <loc>http://crowdworks.github.io//2014/06.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//2014/06/23.html</loc>
+  </url>
+  <url>
+    <loc>http://crowdworks.github.io//2014/06/22.html</loc>
   </url>
   <url>
     <loc>http://crowdworks.github.io//2014/06/21.html</loc>

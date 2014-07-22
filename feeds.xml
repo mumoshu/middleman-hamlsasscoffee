@@ -5,31 +5,415 @@
   <id>http://crowdworks.github.io/</id>
   <link href="http://crowdworks.github.io/"/>
   <link href="http://crowdworks.github.io/feeds.xml" rel="self"/>
-  <updated>2014-06-21T00:00:00+09:00</updated>
+  <updated>2014-07-19T00:26:00+09:00</updated>
   <author>
     <name>CrowdWorks, Inc.</name>
   </author>
   <entry>
-    <title>サンプル記事1タイトル</title>
-    <link rel="alternate" href="http://crowdworks.github.io/2014/06/21/sample.html"/>
-    <id>http://crowdworks.github.io/2014/06/21/sample.html</id>
-    <published>2014-06-21T00:00:00+09:00</published>
-    <updated>2014-06-21T17:17:17+09:00</updated>
+    <title>s3-access-control-with-bucket-policy</title>
+    <link rel="alternate" href="http://crowdworks.github.io/2014/07/19/s3-access-control-with-bucket-policy.html"/>
+    <id>http://crowdworks.github.io/2014/07/19/s3-access-control-with-bucket-policy.html</id>
+    <published>2014-07-19T00:26:00+09:00</published>
+    <updated>2014-07-19T00:26:59+09:00</updated>
+    <content type="html"></content>
+  </entry>
+  <entry>
+    <title>Amazon S3でIPアドレスによるアクセス制限をかける</title>
+    <link rel="alternate" href="http://crowdworks.github.io/2014/07/18/s3-access-control-with-bucket-policy.html"/>
+    <id>http://crowdworks.github.io/2014/07/18/s3-access-control-with-bucket-policy.html</id>
+    <published>2014-07-18T23:14:00+09:00</published>
+    <updated>2014-07-19T00:35:18+09:00</updated>
+    <content type="html">&lt;p&gt;こんにちは、クラウドワークスの九岡です！Amazon S3のBucketに対して https://endpoint/bucket/key でアクセスできることは
+皆さんご存知だと思いますが、実はこれにIPアドレスによるアクセス制限をつけることができます。&lt;/p&gt;
+
+&lt;p&gt;IPアドレスによるアクセス制限は別にセキュアなものではありませんが、
+「ちょっとデザインを共有したいが、不完全でお目汚しになるのでユーザさんにお見せしたくない」みたいなレベルのテストには便利です。
+IPアドレスによるアクセス制限は、AWS Consoleから簡単にできます。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h2&gt;S3 Bucketを作成したあとの初期状態&lt;/h2&gt;
+
+&lt;p&gt;Amazon S3でBucketを作成すると、初期状態ではAWSアカウントのオーナーとBucketの作成者に対してのみ「API経由ですべての操作」が可能な権限がついています。
+それはそれでいいのですが、アクセスキーID・シークレットが必要で、静的ページをちょっとS3で共有してアクセス制限つきで共有したい、みたいなことはできません。&lt;/p&gt;
+
+&lt;h1&gt;IAMレベルのアクセス制限解除&lt;/h1&gt;
+
+&lt;p&gt;まず、READに関してはIPアドレスのみのアクセス制限にするため、AWSコンソール上でBucketに対してEveryoneユーザの
+READ権限をつけます。これですべての人(Everyone)が、IPアドレスの制限に引っかからない限り、BucketにHTTP経由でアクセスできます。&lt;/p&gt;
+
+&lt;p&gt;手順は以下のとおりです。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Add more permissionsをクリック&lt;/li&gt;
+&lt;li&gt;GranteeとしてEveryoneを選択&lt;/li&gt;
+&lt;li&gt;Grantee:EveryoneのView Permissionsにだけチェックを入れる&lt;/li&gt;
+&lt;li&gt;Saveをクリック&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src="/images/s3-bucket-permissions.png" /&gt;&lt;/p&gt;
+
+&lt;h1&gt;IPアドレスレベルのアクセス制限の設定&lt;/h1&gt;
+
+&lt;p&gt;次に、BucketにIPアドレスによるアクセス制限をつけます。
+「Add bucket policy」をクリックして、開いたダイアログに以下のJSONを入力して、Saveをクリックします。
+JSON中の&lt;code&gt;&amp;lt;UNIQUE_ID&amp;gt;&lt;/code&gt;と&lt;code&gt;&amp;lt;CIDR&amp;gt;&lt;/code&gt;はそれぞれユニークな数字と&lt;code&gt;IPアドレス/32&lt;/code&gt;のようなCIDRに変更してください。&lt;/p&gt;
+
+&lt;script src="https://gist.github.com/mumoshu/15a5a15a7d3c44ec8530.js"&gt;&lt;/script&gt;
+
+&lt;h1&gt;表示確認&lt;/h1&gt;
+
+&lt;p&gt;ブラウザで&lt;code&gt;https://s3-ap-northeast-1.amazonaws.com/&amp;lt;BUCKET名&amp;gt;/キー&lt;/code&gt;にアクセスして、ファイルが閲覧またはダウンロードできればOKです。&lt;/p&gt;
+
+&lt;h1&gt;まとめ&lt;/h1&gt;
+
+&lt;p&gt;この記事では、Amazon S3のBucketにIPアドレスによるアクセス権限をつける方法をご説明しました。
+セキュアなものではありませんが、ちょっとしたテストなどには便利です。
+例えば、本ブログの公開前の表示確認は、この記事で紹介したようなIPアドレスでアクセス制限をかけたBucketに
+Middlemanのビルド結果をデプロイすることで行っています。
+ぜひ、ご活用ください！&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>MiddlemanとGitHubで静的サイトを効率的に開発する方法</title>
+    <link rel="alternate" href="http://crowdworks.github.io/2014/07/18/middleman-github-workflow.html"/>
+    <id>http://crowdworks.github.io/2014/07/18/middleman-github-workflow.html</id>
+    <published>2014-07-18T22:01:00+09:00</published>
+    <updated>2014-07-18T22:31:37+09:00</updated>
     <author>
       <name>Yusuke KUOKA</name>
     </author>
-    <content type="html">&lt;p&gt;要約サンプル&lt;/p&gt;
+    <content type="html">&lt;h2&gt;レビュー：レビュー結果の反映が面倒&lt;/h2&gt;
 
-&lt;section&gt;
-&lt;h2&gt;サンプル記事1見出し1&lt;/h2&gt;
-&lt;p&gt;サンプル記事1本文1&lt;/p&gt;
-&lt;p&gt;
-&lt;div id='example'&gt;
-&lt;div class="highlight ruby"&gt;&lt;table style="border-spacing: 0"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class="gutter gl" style="text-align: right"&gt;&lt;pre class="lineno"&gt;1&amp;#x000A;2&amp;#x000A;3&amp;#x000A;4&lt;/pre&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre&gt;&lt;span class="n"&gt;hoge&lt;/span&gt;&amp;#x000A;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;foo&lt;/span&gt;&amp;#x000A;  &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="s2"&gt;"bar"&lt;/span&gt;&amp;#x000A;&lt;span class="k"&gt;end&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/p&gt;
-&lt;/section&gt;
+&lt;h2&gt;好きなエディタで書ける&lt;/h2&gt;
+
+&lt;p&gt;ブログサービスなどを使うと、そのままでは外部エディタなどを使って記事を書くことはできません。
+ブラウザ拡張などで外部エディタで記事を書けるようにしたり、もしくはエディタで書いた記事ソースをブログサービスへコピペ・・・ということもあります。
+Middlemanを使う場合、各自が使い慣れたエディタで、普段仕事でコードや文章を書くときと同様に記事を書くことができます。
+脳のコンテキストスイッチが減り、ブログサービスに慣れる時間も不要で、業務の合間にできるだけ早く記事を書いて公開した人に向いています。&lt;/p&gt;
+
+&lt;h2&gt;様々なフォーマットが使える&lt;/h2&gt;
+
+&lt;p&gt;Middlemanはプラグインによって様々な
+この記事はMarkdownとERBで書いています。記事の基本的なところは
+このブログはGitHubとMiddleman、その他にHaml・SCSS・Markdownなどを使って執筆・運営されています。&lt;/p&gt;
+
+&lt;h2&gt;GitHubでバージョン管理できる&lt;/h2&gt;
+
+&lt;p&gt;ブログエンジン・ブログサービス&lt;/p&gt;
+
+&lt;h2&gt;前提&lt;/h2&gt;
+
+&lt;p&gt;当然といえば当然ですが、弊社には「ブログ専門」のエンジニアはいません。
+通常の業務の合間に記事を書く・公開するといったことを行う必要があるので、ブログの運用にまつわるよくある手間はできるだけ避けたいところです。
+ブログの運用にまつわるよくある手間、とは具体的に言うと、&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;費用承認&lt;/li&gt;
+&lt;li&gt;サーバの運用&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Middleman採用の決め手&lt;/h2&gt;
+
+&lt;h3&gt;Rubyで書かれている&lt;/h3&gt;
+
+&lt;h3&gt;デプロイが柔軟&lt;/h3&gt;
+
+&lt;p&gt;Middlemanのプラグインであるmiddleman-deployやmiddleman-syncを使うと、
+生成したサイトをAmazon S3やGitHub Pagesなど様々な場所にデプロイすることができます。
+サーバが必ずしも必要ないので、サーバの運用に手間をかけたくない私達にとってはうってつけでした。&lt;/p&gt;
+
+&lt;p&gt;業務の合間にさっと記事を書くためには、できるだけ苦労せずにブログを運用したいところです。&lt;/p&gt;
+
+&lt;h3&gt;Rubyで書かれている&lt;/h3&gt;
+
+&lt;p&gt;弊社は、アプリ・インフラ含めほとんどの開発にRubyを使っています。&lt;/p&gt;
+
+&lt;h2&gt;利用したもの&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Middleman&lt;/li&gt;
+&lt;li&gt;GitHub&lt;/li&gt;
+&lt;li&gt;Wercker&lt;/li&gt;
+&lt;li&gt;Amazon S3&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img class="article__body__image_left_30" src="/images/middleman.svg" /&gt;&lt;/p&gt;
+
+&lt;h2&gt;Middleman&lt;/h2&gt;
+
+&lt;p&gt;静的サイトジェネレータ。middleman-blogというプラグインを使うことで、ブログを運用することもできます。
+これが大変便利で、記事の執筆をHamlやらMarkdownやら、Middlemanが対応しているあらゆるフォーマットで行うことができつつ、
+公開に伴う承認フローをGitHubのプルリクエストで回すことができます。記事の取り下げも最近GitHubに追加されたプルリクエストのRevert機能で一発です。&lt;/p&gt;
+
+&lt;p&gt;&lt;div style="clear: both;"/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img class="article__body__image_left_30" src="/images/github.png" /&gt;&lt;/p&gt;
+
+&lt;h2&gt;GitHub&lt;/h2&gt;
+
+&lt;p&gt;&lt;div style="clear: both;"/&gt;&lt;/p&gt;
+
+&lt;h2&gt;ワークフロー&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;git cloneする&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bundle exec middleman&lt;/code&gt;でテストサーバを起動する&lt;/li&gt;
+&lt;li&gt;ブラウザで&lt;a href="http://localhost:4567/"&gt;http://localhost:4567/&lt;/a&gt;にアクセスする&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bundle exec middleman article 英語タイトル&lt;/code&gt;で新規記事を作成する
+
+&lt;ul&gt;
+&lt;li&gt;九岡はAtomの&lt;a href="https://github.com/kylewlacy/run-command"&gt;Run Commandパッケージ&lt;/a&gt;を使って、Atom内で完結させています&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;ブラウザ上で記事ページを開く(新規記事はMiddlemanが自動的にロードしてくれています！)&lt;/li&gt;
+&lt;li&gt;記事を変更するとブラウザ上でも変更点が自動的にリロードされる&lt;/li&gt;
+&lt;li&gt;書き終わったらgit push・hub pull-request&lt;/li&gt;
+&lt;li&gt;マージされたらWerckerで自動的に公開&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;pre class="dot" style="display: none;"&gt;  digraph {
+      A [label=&amp;quot;GitHubからソースをclone&amp;quot;];
+      B [label=&amp;quot;middleman article &amp;lt;タイトル&amp;gt;&amp;quot;]
+      C [label=&amp;quot;記事ソース編集&amp;quot;]
+      D [label=&amp;quot;ブラウザで表示確認&amp;quot;];
+      E [label=&amp;quot;GitHubへpush&amp;quot;];
+      F [label=&amp;quot;レビュー&amp;quot;]
+      G [label=&amp;quot;マージ&amp;quot;]
+      H [label=&amp;quot;公開&amp;quot;]
+      A -&amp;gt; B -&amp;gt; C;
+      D -&amp;gt; C;
+      C -&amp;gt; D [label=&amp;quot;middleman serverで自動リロード&amp;quot;];
+      D -&amp;gt; E;
+      E -&amp;gt; F [label=&amp;quot;Werckerで自動デプロイ&amp;quot;]
+      F -&amp;gt; C;
+      F -&amp;gt; G;
+      G -&amp;gt; H [label=&amp;quot;WerckerでGitHub Pagesへ自動デプロイ&amp;quot;];
+  }
+&lt;/pre&gt;&lt;svg width="800" height="600"&gt;&lt;g transform="translate(20, 20)" /&gt;&lt;/svg&gt;&lt;/p&gt;
+
+&lt;h2&gt;ビルド&lt;/h2&gt;
+&lt;pre&gt;&lt;code class="highlight shell"&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;&lt;span class="nv"&gt;MIDDLEMAN_SYNC_BUCKET_NAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;Bucket&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
+  &lt;span class="nv"&gt;MIDDLEMAN_SYNC_ACCESS_KEY_ID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$AWS_ACCESS_KEY_ID&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+  &lt;span class="nv"&gt;MIDDLEMAN_SYNC_SECRET_ACCESS_KEY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$AWS_SECRET_ACCESS_KEY&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+  bundle &lt;span class="nb"&gt;exec &lt;/span&gt;middleman build
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Amazon S3へのデプロイ&lt;/h2&gt;
+&lt;pre&gt;&lt;code class="highlight shell"&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;&lt;span class="nv"&gt;MIDDLEMAN_SYNC_BUCKET_NAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;Bucket名&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
+  &lt;span class="nv"&gt;MIDDLEMAN_SYNC_ACCESS_KEY_ID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$AWS_ACCESS_KEY_ID&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+  &lt;span class="nv"&gt;MIDDLEMAN_SYNC_SECRET_ACCESS_KEY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$AWS_SECRET_ACCESS_KEY&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+  bundle &lt;span class="nb"&gt;exec &lt;/span&gt;middleman sync
+&lt;/code&gt;&lt;/pre&gt;
+</content>
+  </entry>
+  <entry>
+    <title>エンジニアブログをMiddlemanでつくることにした5つの理由</title>
+    <link rel="alternate" href="http://crowdworks.github.io/2014/07/17/github-based-blog.html"/>
+    <id>http://crowdworks.github.io/2014/07/17/github-based-blog.html</id>
+    <published>2014-07-17T18:20:00+09:00</published>
+    <updated>2014-07-18T22:31:52+09:00</updated>
+    <author>
+      <name>Yusuke KUOKA</name>
+    </author>
+    <content type="html">&lt;p&gt;こんにちは、クラウドワークスの九岡です！
+みなさん、技術ブログの運用って面倒じゃないですか？ぼくは面倒です！
+ネタを貯めて、記事を書いて、公開する。その一連の流れは会社的にも・個人的にも意味があり、
+それプロセス自体も楽しいものです。
+しかし、ブログエンジンやブログサービスを使っていると「もうちょっとなんとかならないか？」と思うことがあります。
+例えば、以下のようなことです。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;拡張できない・しづらい&lt;/li&gt;
+&lt;li&gt;使い慣れた言語とエディタが使えない・使いづらい&lt;/li&gt;
+&lt;li&gt;共同作業しづらい(Git &amp;amp; GitHubが使えない等)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;もちろん、ブログエンジンやブログサービスには管理が簡単、すぐ使えるなどのメリットもありますが、
+それにこだわらない場合はもっといい方法があるはずです。&lt;/p&gt;
+
+&lt;p&gt;弊社ではMiddlemanを使って軽く・モダンにブログを運用してこれらの問題を回避しています。
+この記事では、Middlemanを使うことにした理由をご説明させていただきます。&lt;/p&gt;
+
+&lt;p&gt;技術ブログの運用に悩まされている皆さん、これから技術ブログをつくろうとされている皆さん、
+ぜひこの記事を参考にMiddlemanを使ってみてください！&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h2&gt;Middlemanとは？&lt;/h2&gt;
+
+&lt;p&gt;Rubyで書かれた、拡張性が高い静的サイト生成ツールです。
+利用者がページのソースを好きな言語で書き、Middelmanがそれをビルド・デプロイします。
+ビルドやデプロイの部分はプラグインで拡張することができます。&lt;/p&gt;
+
+&lt;p&gt;プラグインが対応しているものも含めると、以下のような言語に対応しています。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Haml&lt;/li&gt;
+&lt;li&gt;ERB&lt;/li&gt;
+&lt;li&gt;SCSS/SASS&lt;/li&gt;
+&lt;li&gt;CofeeScript&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;また、以下のような方法・サービスでデプロイできます。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;rsync&lt;/li&gt;
+&lt;li&gt;ftp&lt;/li&gt;
+&lt;li&gt;sftp&lt;/li&gt;
+&lt;li&gt;GitHub Pages&lt;/li&gt;
+&lt;li&gt;Amazon S3&lt;/li&gt;
+&lt;li&gt;Rackspace Cloud Files&lt;/li&gt;
+&lt;li&gt;Google Storage&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;採用の理由&lt;/h2&gt;
+
+&lt;p&gt;クラウドワークスのエンジニアブログをMiddlemanで開発・運用することにした理由は、
+特に以下の5つです。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Rubyで書かれている&lt;/li&gt;
+&lt;li&gt;使い慣れた言語とエディタで記事をかける&lt;/li&gt;
+&lt;li&gt;Git &amp;amp; GitHubが使える&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;Rubyで書かれている&lt;/h3&gt;
+
+&lt;p&gt;MiddlemanはRubyで書かれています。
+そのため、私たちにとっては拡張しやすい、ということが採用の一つの理由です。&lt;/p&gt;
+
+&lt;p&gt;弊社はほとんどの開発でRubyを使っています。
+Middlemanの標準機能で対応できないことが仮にあったとしても、いざとなれば使い慣れたRubyでプラグインを
+開発するなどして対処できるので、安心感があります。&lt;/p&gt;
+
+&lt;h3&gt;使い慣れた言語とエディタで記事を書ける&lt;/h3&gt;
+
+&lt;p&gt;ブログエンジンやブログサービスを使うとき、個人的に一番気になるのがここです。
+Middlemanを使う場合、好きなエディタで記事をかけることが、採用の一つの理由です。&lt;/p&gt;
+
+&lt;p&gt;私たちの場合、技術ブログの記事は業務の合間に書きます。その場合、記事はサクッと書いたほうが断然いいです。&lt;/p&gt;
+
+&lt;p&gt;書くのに手間取ると、業務が差し込んできて、書けないまま数日が立ち、そうしているうちに記憶も色あせて、
+余計に書きづらくなり、結局書かないまま数ヶ月すぎる・・・ということが起こりえます。経験ありませんか？僕はあります！
+そうでなくても、時期的にホットな内容なら早く書いて、早く公開したいところです。&lt;/p&gt;
+
+&lt;p&gt;記事をサクッと書く一つの方法は、脳のコンテキストスイッチを最小限にすることです。
+開発中に、普段開発に使っている言語やエディタですぐに記事を書いて公開できれば、それに越したことはないですよね？&lt;/p&gt;
+
+&lt;p&gt;ところが、ブログエンジンなどを使う場合、CoffeeScriptやSASSが単純には使えません。
+手元でビルドして、スタイルの設定ページへコピペ・・・みたいなことをすれば可能ですが、面倒です。&lt;/p&gt;
+
+&lt;p&gt;また、使い慣れたエディタが使えない、使えたとしても、非公式なブラウザ拡張が必要だったり、「自分のエディタは対応してない！」といったことがあります。
+エディタで書いてから、ソースをコピペする？
+それでもいいのですが、コピペ後に記事を修正したくなったら、またエディタにコピペして戻す、といったことになって２度手間感がありますね。&lt;/p&gt;
+
+&lt;p&gt;Middlemanなら、使う言語やエディタは各個人の自由です。私もこの記事はMarkdown + ERB、エディタはAtomで書いています。&lt;/p&gt;
+
+&lt;h3&gt;Git &amp;amp; GitHubが使える&lt;/h3&gt;
+
+&lt;p&gt;Middlemanを使う場合、ソースはGitなどで管理できます。
+Gitで管理すればGitHubが使えます。&lt;/p&gt;
+
+&lt;p&gt;ブログエンジンなどでも、記事の執筆やシンプルな共同編集・レビューは問題無く行えます。
+Git &amp;amp; GitHubが使えることによるメリットは以下のとおりです。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;GitHub上で公開前の記事をレビューできる&lt;/li&gt;
+&lt;li&gt;記事を気軽にコミットしておいて、rebaseしてからレビューに回せる&lt;/li&gt;
+&lt;li&gt;CIと相性がいい&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;クラウドワークスではGitHubを使って、公開前の記事をプルリクエストでレビューするプロセスにしています。
+すると、GitHubのプルリクエスト上に公開前の記事に対するレビューコメントをつけて、レビューが完了したらマージ、ということができるようになり、レビュープロセスが可視化されます。
+レビュー完了時のチャットへの通知なども、普段の開発でGitHubを使って行っているのと同じように実現できます。&lt;/p&gt;
+
+&lt;p&gt;また、Gitで気軽にコミットできるので、うっかりブラウザバックして書きかけの記事が消えたり、エディタで予め書いておいてコピペする必要がありません。&lt;/p&gt;
+
+&lt;p&gt;そして、CIと相性がよく、普段の開発で行っているようにブログもCIすることができます。
+例えば、クラウドワークスのエンジニアブログの場合、&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;記事を執筆してコミットしgit pushしたとき、Werckerでビルドが走る。ビルドが通るとテスト環境に自動的にデプロイされる&lt;/li&gt;
+&lt;li&gt;GitHub上で公開前記事のプルリクエストをマージすると、Werckerでビルドが走る。ビルドが通ると本番環境に自動的にデプロイされる&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;というようにCIを回しています。
+特にHamlやSASSソースにシンタックスエラーがある場合にビルドが落ちてくれるので、
+明らかに壊れたページを公開してしまうといったことを防ぐことができています。
+その上、公開も自動化できるので、私たちは記事の執筆とレビューに集中することができます。&lt;/p&gt;
+
+&lt;h2&gt;まとめ&lt;/h2&gt;
+
+&lt;p&gt;クラウドワークスでは以下の5つの理由から、エンジニアブログをMiddlemanでつくることにしました。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Rubyで書かれている&lt;/li&gt;
+&lt;li&gt;使い慣れた言語とエディタで記事をかける&lt;/li&gt;
+&lt;li&gt;Git &amp;amp; GitHubが使える&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;普段の開発でRubyを使っている、エディタや言語にこだわりがある、
+GitやGitHubで執筆からテスト・公開までのフローを円滑にしたい・・・
+そんな皆さんに、Middlemanをおすすめします！
+ぜひ、この記事をきっかけにMiddlemanでブログをつくってみてください。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Rubyを安全に2.1.2へアップグレードする</title>
+    <link rel="alternate" href="http://crowdworks.github.io/2014/07/17/upgrading-ruby-to-2-1-2.html"/>
+    <id>http://crowdworks.github.io/2014/07/17/upgrading-ruby-to-2-1-2.html</id>
+    <published>2014-07-17T12:30:00+09:00</published>
+    <updated>2014-07-17T12:35:08+09:00</updated>
+    <content type="html">&lt;p&gt;こんにちは、クラウドワークスの九岡です。
+つい先日、クラウドワークスの本番環境をRuby 1.9.3から2.1.2にアップグレードしました。
+「サーバにログインしてRuby再インストールしてApache再起動」・・・ではない安全なアップグレードを行ったので、そのノウハウを共有します。&lt;/p&gt;
+
+&lt;p&gt;手順&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ある時点のブランチをまず2.1.2で動作するようにアップグレード&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;1.9.3のままで対応できるところは、個別にぷるり&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;テスト&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ステージング環境で1.9.3・2.1.2どちらでも動作することを確認&lt;/li&gt;
+&lt;li&gt;CI上でクロスビルド。&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>知らなくて損したChef関連ツール</title>
+    <link rel="alternate" href="http://crowdworks.github.io/2014/07/17/chef-utils.html"/>
+    <id>http://crowdworks.github.io/2014/07/17/chef-utils.html</id>
+    <published>2014-07-17T11:42:00+09:00</published>
+    <updated>2014-07-17T21:57:06+09:00</updated>
+    <author>
+      <name>Yusuke KUOKA</name>
+    </author>
+    <content type="html">&lt;p&gt;こんにちは、クラウドワークスの九岡です。&lt;/p&gt;
+
+&lt;p&gt;「知らないと損するChef関連ツール」みたいな期待感を持たせるタイトルも検討しましたが、
+あえて等身大ということでこのタイトルにしました！&lt;/p&gt;
+
+&lt;p&gt;４月に入社してChef化を本格的に初めて、当時知らなくて苦労したことがいくつかありました。
+同じ苦労をする人を少しでも減らすため、「過去の自分に教えるとしたらこれ！」と思えるものを厳選して共有させていただきます。
+これからChefを始める・導入する、という方はぜひご活用ください！&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h1&gt;chef-shell&lt;/h1&gt;
+
+&lt;p&gt;最近のChefには最初から同梱されている文字通り「Chefコードを実行できるシェル」です。
+chef-shellを起動すると、chef-shellのプロンプトに任意のRubyコード・ChefのDSLを与えて実行することができます。
+「そもそもChef的にこの書き方であってるのかどうかわからない」というレベルのChefレシピのデバッグをするとき、
+みなさんどうしてますか？
+「レシピを修正してknife solo cookで実行」とかしてませんか？
+knife solo cookの実行には、レシピの同期・デバッグ対象と関係ないレシピの再実行などいくつか重いフェーズが含まれるので、
+こういうデバッグは時間がかかります。効率が悪いです。
+そこで、chef-shellを使って、対象サーバ上でChefのコードスニペットを実行してみて、動作確認がとれてからChefレシピに反映しましょう。
+調理用がわからないうちは、まず色々試してみてから、おいしくできあがったものだけをレシピ化したいですよね？
+Chefでも同じ事です！&lt;/p&gt;
 </content>
   </entry>
 </feed>
